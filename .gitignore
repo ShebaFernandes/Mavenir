@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Regenerable via scripts/download_specs.py + src/ingest.py -- not committed
+# to keep the repo lean (raw docs ~62MB, chunks add more). See README.
+data/
