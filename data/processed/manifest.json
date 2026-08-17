@@ -1,0 +1,98 @@
+[
+  {
+    "spec_id": "23.501",
+    "title": "System architecture for the 5G System (5GS); Stage 2",
+    "release": "17",
+    "version": "17.15.0",
+    "sections": 916,
+    "chunks": 1608
+  },
+  {
+    "spec_id": "23.502",
+    "title": "Procedures for the 5G System (5GS); Stage 2",
+    "release": "17",
+    "version": "17.15.0",
+    "sections": 1170,
+    "chunks": 1975
+  },
+  {
+    "spec_id": "23.503",
+    "title": "Policy and charging control framework for the 5G System (5GS); Stage 2",
+    "release": "17",
+    "version": "17.11.0",
+    "sections": 172,
+    "chunks": 379
+  },
+  {
+    "spec_id": "24.301",
+    "title": "Non-Access-Stratum (NAS) protocol for Evolved Packet System (EPS); Stage 3",
+    "release": "17",
+    "version": "17.12.0",
+    "sections": 1035,
+    "chunks": 1964
+  },
+  {
+    "spec_id": "24.501",
+    "title": "Non-Access-Stratum (NAS) protocol for 5G System (5GS); Stage 3;",
+    "release": "17",
+    "version": "17.18.1",
+    "sections": 1266,
+    "chunks": 3168
+  },
+  {
+    "spec_id": "29.500",
+    "title": "5G System; Technical Realization of Service Based Architecture; Stage 3",
+    "release": "17",
+    "version": "17.16.0",
+    "sections": 255,
+    "chunks": 381
+  },
+  {
+    "spec_id": "29.518",
+    "title": "5G System; Access and Mobility Management Services; Stage 3",
+    "release": "17",
+    "version": "17.18.0",
+    "sections": 706,
+    "chunks": 996
+  },
+  {
+    "spec_id": "33.501",
+    "title": "Security architecture and procedures for 5G system",
+    "release": "17",
+    "version": "17.16.0",
+    "sections": 679,
+    "chunks": 801
+  },
+  {
+    "spec_id": "38.300",
+    "title": "NR; NR and NG-RAN Overall Description; Stage 2",
+    "release": "17",
+    "version": "17.17.0",
+    "sections": 445,
+    "chunks": 577
+  },
+  {
+    "spec_id": "38.331",
+    "title": "NR; Radio Resource Control (RRC) protocol specification",
+    "release": "17",
+    "version": "17.17.0",
+    "sections": 1242,
+    "chunks": 2940
+  },
+  {
+    "spec_id": "38.401",
+    "title": "NG-RAN; Architecture description",
+    "release": "17",
+    "version": "17.10.0",
+    "sections": 180,
+    "chunks": 249
+  },
+  {
+    "spec_id": "38.413",
+    "title": "NG-RAN; NG Application Protocol (NGAP)",
+    "release": "17",
+    "version": "17.15.0",
+    "sections": 899,
+    "chunks": 1799
+  }
+]

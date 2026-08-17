@@ -1,0 +1,28 @@
+# Render Blueprint for the 3GPP RAG Chatbot.
+#
+# Deploy: push this repo to GitHub, then in Render click
+#   New + -> Blueprint -> pick this repo. Render reads this file and creates
+# the service. Set GEMINI_API_KEY in the dashboard when prompted (it is marked
+# sync:false so it is never read from the repo).
+#
+# The build step rebuilds the Chroma vector store from the committed chunks
+# (data/processed/chunks/*.jsonl) -- the store itself is too big for GitHub, so
+# it is regenerated on each deploy rather than committed.
+services:
+  - type: web
+    name: 3gpp-rag-chatbot
+    runtime: python
+    # 2 GB RAM. The embedding model (torch) plus the in-memory BM25 index over
+    # ~16.8k chunks will OOM on the 512 MB free/starter tiers -- both while
+    # embedding at build time and while serving. Do not drop below standard.
+    plan: standard
+    buildCommand: "pip install -r requirements.txt && python src/embed.py"
+    startCommand: "streamlit run app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true --server.enableCORS false"
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false          # set in the Render dashboard, not in the repo
+      - key: PYTHON_VERSION
+        value: "3.10.9"
+      # Cache the downloaded embedding model on the instance between restarts.
+      - key: HF_HOME
+        value: "/opt/render/project/.cache/huggingface"

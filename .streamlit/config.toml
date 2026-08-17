@@ -1,0 +1,10 @@
+# Streamlit settings for headless/server deployment (e.g. Render).
+# The port is passed on the command line (--server.port $PORT) because Render
+# assigns it dynamically; everything static lives here.
+[server]
+headless = true
+address = "0.0.0.0"
+enableCORS = false
+
+[browser]
+gatherUsageStats = false

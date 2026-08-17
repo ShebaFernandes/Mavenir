@@ -6,6 +6,11 @@ venv/
 # Secrets -- never commit real API keys. Use .env.example as the template.
 .env
 
-# Regenerable via scripts/download_specs.py + src/ingest.py -- not committed
-# to keep the repo lean (raw docs ~62MB, chunks add more). See README.
-data/
+# Raw .docx (~51MB) and the Chroma vector store (~200MB, and its chroma.sqlite3
+# exceeds GitHub's 100MB file limit) are NOT committed. The vector store is
+# rebuilt from the committed chunks by `python src/embed.py` at deploy time.
+data/raw/
+data/vectorstore/
+
+# The processed chunks (data/processed/chunks/*.jsonl, ~29MB) ARE committed so
+# the app can be deployed without re-downloading and re-parsing the specs.
