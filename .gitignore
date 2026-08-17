@@ -3,6 +3,9 @@ __pycache__/
 .venv/
 venv/
 
+# Secrets -- never commit real API keys. Use .env.example as the template.
+.env
+
 # Regenerable via scripts/download_specs.py + src/ingest.py -- not committed
 # to keep the repo lean (raw docs ~62MB, chunks add more). See README.
 data/

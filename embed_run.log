@@ -1,0 +1,39 @@
+Loaded 16837 chunks from C:\Users\hp\OneDrive\Desktop\Mavenir\3gpp-rag-chatbot\data\processed\chunks
+Loading embedding model: sentence-transformers/all-MiniLM-L6-v2
+  embedded 500/16837
+  embedded 1000/16837
+  embedded 1500/16837
+  embedded 2000/16837
+  embedded 2500/16837
+  embedded 3000/16837
+  embedded 3500/16837
+  embedded 4000/16837
+  embedded 4500/16837
+  embedded 5000/16837
+  embedded 5500/16837
+  embedded 6000/16837
+  embedded 6500/16837
+  embedded 7000/16837
+  embedded 7500/16837
+  embedded 8000/16837
+  embedded 8500/16837
+  embedded 9000/16837
+  embedded 9500/16837
+  embedded 10000/16837
+  embedded 10500/16837
+  embedded 11000/16837
+  embedded 11500/16837
+  embedded 12000/16837
+  embedded 12500/16837
+  embedded 13000/16837
+  embedded 13500/16837
+  embedded 14000/16837
+  embedded 14500/16837
+  embedded 15000/16837
+  embedded 15500/16837
+  embedded 16000/16837
+  embedded 16500/16837
+  embedded 16837/16837
+
+Done. 16837 vectors in collection '3gpp_specs'
+Persisted to: C:\Users\hp\OneDrive\Desktop\Mavenir\3gpp-rag-chatbot\data\vectorstore\chroma

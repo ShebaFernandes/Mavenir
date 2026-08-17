@@ -1,0 +1,40 @@
+[parse] 23.501
+[chunk] 23.501: 916 sections
+        -> 1608 chunks, avg 1335 chars -> 23.501.jsonl
+[parse] 23.502
+[chunk] 23.502: 1170 sections
+        -> 1975 chunks, avg 1264 chars -> 23.502.jsonl
+[parse] 23.503
+[chunk] 23.503: 172 sections
+        -> 379 chunks, avg 1541 chars -> 23.503.jsonl
+[parse] 24.301
+[chunk] 24.301: 1035 sections
+        -> 1964 chunks, avg 1388 chars -> 24.301.jsonl
+[parse] 24.501
+[chunk] 24.501: 1266 sections
+        -> 3168 chunks, avg 1519 chars -> 24.501.jsonl
+[parse] 29.500
+[chunk] 29.500: 255 sections
+        -> 381 chunks, avg 1289 chars -> 29.500.jsonl
+[parse] 29.518
+[chunk] 29.518: 706 sections
+        -> 996 chunks, avg 1142 chars -> 29.518.jsonl
+[parse] 33.501
+[chunk] 33.501: 679 sections
+        -> 801 chunks, avg 1120 chars -> 33.501.jsonl
+[parse] 38.300
+[chunk] 38.300: 445 sections
+        -> 577 chunks, avg 1050 chars -> 38.300.jsonl
+[parse] 38.331
+[chunk] 38.331: 1242 sections
+        -> 2940 chunks, avg 1304 chars -> 38.331.jsonl
+[parse] 38.401
+[chunk] 38.401: 180 sections
+        -> 249 chunks, avg 1120 chars -> 38.401.jsonl
+[parse] 38.413
+[chunk] 38.413: 899 sections
+        -> 1799 chunks, avg 741 chars -> 38.413.jsonl
+
+Done. 16837 chunks across 12 specs.
+Manifest: C:\Users\hp\OneDrive\Desktop\Mavenir\3gpp-rag-chatbot\data\processed\manifest.json
+Chunks:   C:\Users\hp\OneDrive\Desktop\Mavenir\3gpp-rag-chatbot\data\processed\chunks

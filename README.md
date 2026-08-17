@@ -41,10 +41,14 @@ filename's release-letter encoding is easy to misread.
 ## Pipeline
 
 ```
-scripts/download_specs.py   raw .docx  -->  data/raw/docx/
-src/parsing/docx_parser.py  .docx      -->  clause-tagged Sections (in memory)
-src/chunking/chunker.py     Sections   -->  citation-ready Chunks
-src/ingest.py                          -->  data/processed/chunks/{spec}.jsonl
+scripts/download_specs.py   raw .docx   -->  data/raw/docx/
+src/parsing/docx_parser.py  .docx       -->  clause-tagged Sections (in memory)
+src/chunking/chunker.py     Sections    -->  citation-ready Chunks
+src/ingest.py                           -->  data/processed/chunks/{spec}.jsonl
+src/embed.py                chunks      -->  data/vectorstore/chroma  (16.8k vectors)
+src/retrieve.py             query       -->  fused dense+BM25 clause hits
+src/generate.py             hits+query  -->  citation-grounded answer (or abstain)
+src/chat.py  /  app.py                  -->  CLI + Streamlit chat interfaces
 ```
 
 - **Parsing** walks the document body in original order (paragraphs and tables
@@ -59,14 +63,48 @@ src/ingest.py                          -->  data/processed/chunks/{spec}.jsonl
 
 ## Running it
 
+Build the data once (the `data/` directory is gitignored -- it's fully
+reproducible from these commands, so it isn't committed to keep the repo lean):
+
 ```bash
 pip install -r requirements.txt
 python scripts/download_specs.py   # -> data/raw/docx/*.docx (~62 MB)
 python src/ingest.py               # -> data/processed/chunks/*.jsonl
+python src/embed.py                # -> data/vectorstore/chroma  (~17k vectors)
 ```
 
-`data/` is gitignored -- it's fully reproducible from these two commands, so it
-isn't committed to keep the repo lean.
+Then chat, either in the terminal or the browser:
+
+```bash
+python src/chat.py                 # CLI REPL
+streamlit run app.py               # web UI at http://localhost:8501
+```
+
+By default answers run in **extractive** mode (no API key needed): the bot
+quotes the single most relevant clause verbatim and lists the others, so it
+cannot hallucinate. Set an API key to switch on **LLM synthesis** -- fluent
+answers composed strictly from the retrieved clauses, with inline `[1][2]`
+citations. Either way the bot **abstains** when retrieval confidence is below a
+floor, rather than guessing.
+
+The backend is chosen by which key is set (Gemini takes priority over Claude).
+Put your key in a `.env` file at the repo root -- it's loaded automatically at
+startup and is gitignored, so the key is never committed:
+
+```bash
+cp .env.example .env
+# then edit .env and set GEMINI_API_KEY=...  (or ANTHROPIC_API_KEY=sk-ant-...)
+```
+
+`.env` contents:
+
+```
+GEMINI_API_KEY=your-gemini-api-key-here
+# GEMINI_MODEL=gemini-1.5-flash        # optional override, e.g. gemini-1.5-pro
+```
+
+(A shell `export GEMINI_API_KEY=...` still works too and takes precedence over
+`.env`.)
 
 Each line of `data/processed/chunks/{spec}.jsonl` is one chunk:
 
@@ -86,12 +124,32 @@ Each line of `data/processed/chunks/{spec}.jsonl` is one chunk:
 }
 ```
 
-Current output: **~15,100 chunks** across the 12 specs.
+Current output: **~16,800 chunks** across the 12 specs.
+
+## The RAG layer
+
+Once chunks are embedded into Chroma, three modules turn them into a chatbot:
+
+- **Retrieval (`src/retrieve.py`)** runs *hybrid* search: a dense
+  `all-MiniLM-L6-v2` vector search (good at paraphrase/semantics) and a BM25
+  keyword search (good at the exact acronyms and clause numbers that saturate
+  standards text), fused with Reciprocal Rank Fusion so a chunk strong in
+  either method surfaces. The best dense score becomes a **confidence** used
+  downstream to decide whether to answer at all.
+- **Generation (`src/generate.py`)** hands the numbered clause excerpts to the
+  answer backend under a strict *ground-or-abstain* prompt. It uses **Gemini**
+  (`GEMINI_API_KEY`) or **Claude** (`ANTHROPIC_API_KEY`) when a key is set;
+  without one it falls back to an **extractive** answer that quotes the top
+  clause verbatim (hallucination-proof by construction). If retrieval
+  confidence is below the floor it **abstains** before any model runs -- weak
+  retrieval never gets paraphrased into a confident-sounding guess.
+- **Interfaces (`src/chat.py`, `app.py`)** expose it as a terminal REPL and a
+  Streamlit web app. Both show every answer's mode, confidence, and the exact
+  clause citations backing it.
 
 ## Not yet built (next steps)
 
-- Embedding + vector store (e.g. Chroma) over `data/processed/chunks/`
-- Hybrid retrieval (vector + keyword, since standards text is acronym-dense)
-- Citation-grounded generation: answer only from retrieved chunks, cite the
-  clause, and abstain when retrieval confidence is low
-- Answer verification pass (check the generated claim against the cited chunk)
+- Answer verification pass (check each generated claim against its cited chunk)
+- Cross-reference resolution ("see clause 5.4.2") to pull in referenced clauses
+- A telecom-tuned or larger embedding model, re-embedded into a fresh Chroma
+  collection, if retrieval quality on acronym-dense queries needs it

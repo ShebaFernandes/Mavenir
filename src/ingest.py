@@ -44,10 +44,11 @@ def ingest_all() -> None:
 
         out_path = CHUNKS_DIR / f"{spec_id}.jsonl"
         with open(out_path, "w", encoding="utf-8") as f:
-            for chunk in chunks:
-                f.write(json.dumps(chunk.to_dict(), ensure_ascii=False) + "\n")
+            for doc in chunks:
+                record = {"text": doc.page_content, **doc.metadata}
+                f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
-        avg_len = sum(len(c.text) for c in chunks) / len(chunks) if chunks else 0
+        avg_len = sum(len(doc.page_content) for doc in chunks) / len(chunks) if chunks else 0
         print(f"        -> {len(chunks)} chunks, avg {avg_len:.0f} chars -> {out_path.name}")
 
         if spec.release != "17":
